@@ -1,39 +1,41 @@
 import { useEffect, useState } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 
-export const TaskForm = ({ onCreateTask }) => {
+export const TaskForm = ({ description = '', onSaveTask }) => {
   const [loading, setLoading] = useState(true);
   const [task, setTask] = useState('');
-  console.log("TaskForm do todolist do hermann", loading, task);
 
   const handleWriteTask = (newTask) => {
     setTask(newTask);
   }
 
-  const handleCreateTask = (event) => {
+  const handleSaveTask = (event) => {
     setLoading(true);
     event.preventDefault();
 
     if (task.trim() !== '') {
-      if(onCreateTask) onCreateTask(task);
+      if(onSaveTask) onSaveTask(task);
       setTask('');
     }
-
-
-
     setLoading(false);
   }
 
   useEffect(() => {
+    if(description === task) return;
+
+    setTask(description);
+  }, [description]);
+
+  useEffect(() => {
     setLoading(false);
-  },[]);
+  }, []);
 
   if(loading) return <Text>Loading...</Text>;
 
   return (
     <View style={{ padding: 5}}>
       <TextInput value={task} onChangeText={handleWriteTask} />
-      <TouchableOpacity onPress={handleCreateTask}>
+      <TouchableOpacity onPress={handleSaveTask}>
         <Text>+</Text>
       </TouchableOpacity>
     </View>

@@ -1,14 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { TextInput } from 'react-native';
 
 export  function Task({ task: initialTask, onEdit, onDelete }) {
   const [task, setTask] = useState(initialTask);
-  const [description, setDescription] = useState(task.description);
-  const [isEditing, setIsEditing] = useState(false);
 
   const handleComplete = () => {
-    if(isEditing) return
+    if(task.editing) return
 
     setTask((prevTask) => ({ ...prevTask, completed: !prevTask.completed }));
   }
@@ -16,24 +13,21 @@ export  function Task({ task: initialTask, onEdit, onDelete }) {
   const handleEdit = () => {
     if(task.completed) return
 
-    if(onEdit) onEdit(task)
+    const taskToEdit = { ...task, editing: true };
 
-    setIsEditing(true);
-    setDescription(task.description);
+    if(onEdit) onEdit(taskToEdit)
+
+    setTask(taskToEdit)
   }
 
   const handleDelete = () => {
     if(onDelete) onDelete(task)
   }
 
-  const handleChangeDescription = (text) => {
-    setDescription(text);
-  }
-
-  const handleSave = () => {
-    setTask((prevTask) => ({ ...prevTask, description }));
-    setIsEditing(false);
-  }
+  useEffect(
+    () => { if(task?.editing && !initialTask?.editing) setTask(initialTask) },
+    [task?.editing, initialTask?.editing]
+  )
 
   return (
       <View>
@@ -45,22 +39,12 @@ export  function Task({ task: initialTask, onEdit, onDelete }) {
         </TouchableOpacity>
 
         {/* Texto da tarefa */}
-        {!isEditing && <Text>{task.description}</Text>}
-        {isEditing && (
-          <>
-            <TextInput value={description} onChangeText={handleChangeDescription} />
-            <TouchableOpacity onPress={handleSave}>
-              <Text>Salvar</Text>
-            </TouchableOpacity>
-          </>
-        )}
+        <Text>{task.description}</Text>
 
         {/* Botão de editar */}
-        {!isEditing && (
-          <TouchableOpacity onPress={handleEdit}>
-            <Text>Editar</Text>
-          </TouchableOpacity>
-        )}
+        <TouchableOpacity onPress={handleEdit}>
+          <Text>Editar</Text>
+        </TouchableOpacity>
 
         {/* Botão de excluir */}
         <TouchableOpacity onPress={handleDelete}>
