@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 
-export  function Task({ task: initialTask, onEdit, onDelete }) {
+export  function Task({ task: initialTask, onComplete, onEdit, onDelete }) {
   const [task, setTask] = useState(initialTask);
 
   const handleComplete = () => {
     if(task.editing) return
 
-    setTask((prevTask) => ({ ...prevTask, completed: !prevTask.completed }));
+    const newTask = { ...task, completed: !task.completed };
+
+    if(onComplete) onComplete(newTask)
+
+    setTask(newTask);
   }
 
   const handleEdit = () => {
