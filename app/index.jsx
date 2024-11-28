@@ -50,12 +50,26 @@ export default () => {
     setTaskToForm(task);
   };
 
+  const handleTaskComplete = (task) => {
+    setTasks((prevTasks) => {
+      return prevTasks.map((prevTask) => {
+        if(prevTask.id === task.id) return task;
+
+        return prevTask;
+      });
+    });
+  }
+
+  const handleRemoveCompleted = () => {
+    setTasks((prevTasks) => prevTasks.filter((prevTask) => !prevTask.completed));
+  }
+
   return (
     <View style={{ flex: 1 }}>
       <Title>TODOLIST</Title>
       <TaskForm description={taskToForm.description} onSaveTask={handleSaveTask} />
-      <TaskList tasks={tasks} onDeleteTask={handleDeleteTask} onEditTask={handleEditTask} />
-      <Footer />
+      <TaskList tasks={tasks} onCompleteTask={handleTaskComplete} onDeleteTask={handleDeleteTask} onEditTask={handleEditTask} />
+      <Footer total={tasks.length} completed={tasks.filter((task) => task.completed).length} onRemoveCompleted={handleRemoveCompleted} />
     </View>
   )
 };
