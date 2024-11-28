@@ -1,13 +1,18 @@
-import { Button, TextInput, View } from "react-native";
 
-export const Footer = () => (
-  <View>
-    <TextInput />
-    <Button title="Biel" />
-  </View>
-)
+import { Text, TouchableOpacity, View } from "react-native";
+import { ProgressBar } from "../ProgressBar";
 
-//Footer
-//  Container
-//    ProgressBar
-//    Button
+export const Footer = ({ total, completed, onRemoveCompleted }) => {
+  const handleRemoveCompleted = () => {
+    if(onRemoveCompleted) onRemoveCompleted()
+  }
+  return (
+    <View>
+      <ProgressBar total={total} completed={completed} />
+
+      <TouchableOpacity onPress={handleRemoveCompleted}>
+        <Text>Remover prontos</Text>
+      </TouchableOpacity>
+    </View>
+  )
+}
