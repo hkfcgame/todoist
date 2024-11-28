@@ -69,7 +69,7 @@ export default () => {
       <Title>TODOLIST</Title>
       <TaskForm description={taskToForm.description} onSaveTask={handleSaveTask} />
       <TaskList tasks={tasks} onCompleteTask={handleTaskComplete} onDeleteTask={handleDeleteTask} onEditTask={handleEditTask} />
-      <Footer total={tasks.length} completed={tasks.filter((task) => task.completed).length} onRemoveCompleted={handleRemoveCompleted} />
+      <Footer tasks={tasks} onRemoveCompleted={handleRemoveCompleted} />
     </View>
   )
 };
