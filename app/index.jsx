@@ -65,6 +65,7 @@ export default () => {
     setTasks((prevTasks) => prevTasks.filter((prevTask) => !prevTask.completed));
   }
 
+
   return (
     <View style={styles.container}>
       <View style={styles.content}>
