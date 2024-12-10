@@ -4,6 +4,7 @@ import { TaskForm } from "./TaskForm";
 import { TaskList } from "./TaskList";
 import { Footer } from "./Footer";
 import { useState } from "react";
+import { styles } from "./styles";
 
 let id = 0;
 
@@ -65,11 +66,13 @@ export default () => {
   }
 
   return (
-    <View style={{ flex: 1 }}>
-      <Title>TODOLIST</Title>
-      <TaskForm description={taskToForm.description} onSaveTask={handleSaveTask} />
-      <TaskList tasks={tasks} onCompleteTask={handleTaskComplete} onDeleteTask={handleDeleteTask} onEditTask={handleEditTask} />
-      <Footer tasks={tasks} onRemoveCompleted={handleRemoveCompleted} />
+    <View style={styles.container}>
+      <View style={styles.content}>
+        <Title>TODOLIST</Title>
+        <TaskForm description={taskToForm.description} onSaveTask={handleSaveTask} />
+        <TaskList tasks={tasks} onCompleteTask={handleTaskComplete} onDeleteTask={handleDeleteTask} onEditTask={handleEditTask} />
+        <Footer tasks={tasks} onRemoveCompleted={handleRemoveCompleted} />
+      </View>
     </View>
   )
 };
