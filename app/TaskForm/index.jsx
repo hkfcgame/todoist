@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { styles } from "./styles";
+
 
 export const TaskForm = ({ description = '', onSaveTask }) => {
   const [loading, setLoading] = useState(true);
@@ -33,10 +35,19 @@ export const TaskForm = ({ description = '', onSaveTask }) => {
   if(loading) return <Text>Loading...</Text>;
 
   return (
-    <View style={{ padding: 5}}>
-      <TextInput value={task} onChangeText={handleWriteTask} />
-      <TouchableOpacity onPress={handleSaveTask}>
-        <Text>+</Text>
+    <View style={ styles.container }>
+      <TextInput
+        style={styles.input}
+        placeholder="what needs to be done?"
+      placeholderTextColor="#abaaaa"
+        value={task}
+        onChangeText={handleWriteTask}
+      />
+      <TouchableOpacity
+        style={styles.button}
+        onPress={handleSaveTask}
+      >
+        <Text style={styles.buttonLabel}>+</Text>
       </TouchableOpacity>
     </View>
   )
